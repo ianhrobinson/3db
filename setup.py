@@ -3,8 +3,8 @@ pythonapi package configuration.
 
 Zach Boyle <zboyle@umich.edu>
 Marcelo Almeida <mgba@umich.edu>
-Nick Kroetsch < >
-Ian Robinson < >
+Nick Kroetsch <kroetsch@umich.edu>
+Ian Robinson <ihr@umich.edu>
 """
 
 from setuptools import setup
