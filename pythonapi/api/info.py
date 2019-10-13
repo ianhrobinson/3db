@@ -10,7 +10,11 @@ def info_locals():
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	pythonapi.app.config['PROCESS'].sendline('locals()')
 
-	return pythonapi.app.config['PROCESS'].before
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	retval = pythonapi.app.config['PROCESS'].before
+
+	pythonapi.app.config['PROCESS'].sendline('h')
+	return retval;
 
 
 def info_stack():
@@ -21,8 +25,11 @@ def info_stack():
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	pythonapi.app.config['PROCESS'].sendline('where')
 
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	filename = pythonapi.app.config['PROGRAM_NAME']
 	unparsed_stack = pythonapi.app.config['PROCESS'].before
+
+	pythonapi.app.config['PROCESS'].sendline('h')
 	# parsed_stack = []
 
 	# temp = [unparsed_stack.split(filename)]
@@ -49,9 +56,12 @@ def get_current_line():
 	line_num = -1
 
 	# TODO: clean this up
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	output = pythonapi.app.config['PROCESS'].before
 
-	# temp = re.findall(r"/\[[0-9]+\]/*->", output)
+	pythonapi.app.config['PROCESS'].sendline('h')
+
+	temp = re.findall(r"/\[[0-9]+\]/*->", output)
 
 	line_num = output
 
