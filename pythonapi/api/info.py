@@ -6,24 +6,41 @@ def info_locals():
 	returns all local variables with their values in a dictionary
 	'''
 	
-	variables = os.system('locals()')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('locals()')
 
-	return None
+	return pythonapi.app.config['PROCESS'].before
 
 
 def info_stack():
 	'''
 	returns stack frames, front of list = top
 	'''
-	return None
+	
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('where')
+
+	unparsed_stack = pythonapi.app.config['PROCESS'].before
+	parsed_stack = [unparsed_stack.split('->')]
+
+	# TODO: parse stack better
+
+	return parsed_stack
 
 
 def get_current_line():
 	'''
 	returns current line
 	'''
-	# filename = pythonapi.app.config['PROGRAM_NAME']
-	# output = stderr.PIPE("u;;d;;l")
+	
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('u;;d;;l')
+
+	# TODO: clean this up
+
+	# filename = pythonapi.app.config['PROGRAM_PATH']
+	# output = pythonapi.app.config['PROCESS'].before
+
 	# i = 0
 	# while i < len(output):
 	# 	if 	filename == output[i:len(filename)]:
@@ -38,5 +55,4 @@ def get_current_line():
 
 	# line_no = int(s)
 
-	# return line_no
-	return None
+	return pythonapi.app.config['PROCESS'].before

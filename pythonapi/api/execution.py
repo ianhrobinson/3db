@@ -1,5 +1,5 @@
 """REST API for execution"""
-import subprocess
+import pexpect
 import flask
 import pythonapi
 
@@ -8,10 +8,8 @@ import pythonapi
 def start_debug():
 
 	# start program execution
-	pythonapi.app.config['PROCESS'] = subprocess.Popen(
-		["python", pythonapi.app.config['PROGRAM_PATH']], 
-		stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True
-	)
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('continue')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -44,7 +42,8 @@ def end_debug():
 def step_into():
 
 	# step into line
-	os.system('step')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('step')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -63,7 +62,8 @@ def step_into():
 def step_over():
 
 	# step over line
-	os.system('next')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('next')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -82,7 +82,8 @@ def step_over():
 def continue_debug():
 
 	# step over line
-	os.system('continue')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('continue')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -102,7 +103,8 @@ def continue_debug():
 def set_breakpoint(line_number):
 
 	# set breakpoint in pdb
-	os.system(f'break {line_number}')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline(f'break {line_number}')
 
 	program_state= {
 		"added": True
@@ -115,7 +117,8 @@ def set_breakpoint(line_number):
 def remove_breakpoint(line_number):
 
 	# set breakpoint in pdb
-	os.system(f'clear {line_number}')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline(f'clear {line_number}')
 
 	program_state= {
 		"added": True

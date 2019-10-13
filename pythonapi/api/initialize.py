@@ -1,4 +1,5 @@
 import os
+import pexpect
 import flask
 import pythonapi
 
@@ -6,7 +7,10 @@ import pythonapi
 @pythonapi.app.route('/api/initialize/', methods=["GET"])
 def initialize():
 
-	print(pythonapi.app.config['PROCESS'])
+	# start program execution
+	pythonapi.app.config['PROCESS'] = pexpect.spawnu(
+		f'python {pythonapi.app.config["PROGRAM_PATH"]}'
+	)
 
 	f = open(pythonapi.app.config['PROGRAM_PATH'], 'r')
 	# create list of lines
