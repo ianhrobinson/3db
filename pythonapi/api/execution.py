@@ -1,5 +1,5 @@
 """REST API for execution"""
-import os
+import pexpect
 import flask
 import pythonapi
 
@@ -8,7 +8,8 @@ import pythonapi
 def start_debug():
 
 	# start program execution
-	os.system(f"python {pythonapi.app.config['PROGRAM_NAME']}")
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('continue')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -28,7 +29,7 @@ def start_debug():
 def end_debug():
 
 	# end program execution
-	os.system('quit')
+	pythonapi.app.config['PROCESS'].kill(1)
 
 	# return program state
 	program_state = {
@@ -41,7 +42,8 @@ def end_debug():
 def step_into():
 
 	# step into line
-	os.system('step')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('step')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -60,7 +62,8 @@ def step_into():
 def step_over():
 
 	# step over line
-	os.system('next')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('next')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -79,7 +82,8 @@ def step_over():
 def continue_debug():
 
 	# step over line
-	os.system('continue')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline('continue')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -95,11 +99,12 @@ def continue_debug():
 
 
 # TODO
-@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/set_breakpoint/<int:line_number>/', methods=["GET"])
 def set_breakpoint(line_number):
 
 	# set breakpoint in pdb
-	os.system(f'break {line_number}')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline(f'break {line_number}')
 
 	program_state= {
 		"added": True
@@ -108,11 +113,12 @@ def set_breakpoint(line_number):
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/remove_breakpoint/<int:line_number>/', methods=["GET"])
 def remove_breakpoint(line_number):
 
 	# set breakpoint in pdb
-	os.system(f'break {line_number}')
+	pythonapi.app.config['PROCESS'].expect('(Pdb)')
+	pythonapi.app.config['PROCESS'].sendline(f'clear {line_number}')
 
 	program_state= {
 		"added": True

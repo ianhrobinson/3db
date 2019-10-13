@@ -1,4 +1,5 @@
 import os
+import pexpect
 import flask
 import pythonapi
 
@@ -6,28 +7,18 @@ import pythonapi
 @pythonapi.app.route('/api/initialize/', methods=["GET"])
 def initialize():
 
-	code = {}
-	i = 1
 	# start program execution
-	
-	with open(pythonapi.app.config['PROGRAM_PATH'], 'r') as f:
-		# ignore newline character
-		line = f.readline()
-		while line:
-			code[i] = line
-			line = f.readline()
-			i += 1
+	pythonapi.app.config['PROCESS'] = pexpect.spawnu(
+		f'python {pythonapi.app.config["PROGRAM_PATH"]}'
+	)
 
-	variables = pythonapi.api.info_locals()
-	stack = pythonapi.api.info_stack()
-	curr_line = pythonapi.api.get_current_line()
+	f = open(pythonapi.app.config['PROGRAM_PATH'], 'r')
+	# create list of lines
+	code = f.read().split('\n')
+	f.close()
 
 	# return program state
 	program_state = {
-    	"start": True,
-		"code": code,
-		"current_line": curr_line,
-		"variables": variables,
-		"stack": stack
+		"code": code
 	}
 	return flask.jsonify(**program_state)
