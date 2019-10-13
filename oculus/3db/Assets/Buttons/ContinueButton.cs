@@ -42,7 +42,7 @@ public class ContinueButton : MonoBehaviour
 
     void HandleClick()
     {
-        StartCoroutine(GetRequest("http://localhost:8000/api/v1"));
+        StartCoroutine(GetRequest("http://localhost:8000/api/execution/continue/"));
     }
 
     void HandleMouseOver()

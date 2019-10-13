@@ -26,7 +26,7 @@ public class ClickRaycaster : MonoBehaviour
             if (Physics.Raycast(crosshairs.transform.position, crosshairs.transform.TransformDirection(Vector3.forward), out hit, 100.0f)) //Do the raycast, fire the ray 2meters
             {	
                 GameObject hitGameObject = hit.collider.gameObject; //Grap the gameobject that was hit
-                if(Input.GetKeyDown(KeyCode.Mouse0)) //Mouse button 0 is pressed
+                if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Space)) //Mouse button 0 is pressed
                 {   
                     hitGameObject.SendMessage("HandleClick",null,SendMessageOptions.DontRequireReceiver);
                 }

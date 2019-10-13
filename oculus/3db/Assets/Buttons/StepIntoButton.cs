@@ -42,7 +42,7 @@ public class StepIntoButton : MonoBehaviour
 
     void HandleClick()
     {
-        StartCoroutine(GetRequest("http://localhost:8000/api/v1"));
+        StartCoroutine(GetRequest("http://localhost:8000/api/execution/stepinto/"));
     }
 
     void HandleMouseOver()

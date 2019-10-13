@@ -36,13 +36,13 @@ public class StopButton : MonoBehaviour
             string text;
             Debug.Log("Received: " + uwr.downloadHandler.text);
             text = uwr.downloadHandler.text;
-            gameObject.transform.parent.parent.gameObject.SendMessage("UpdateInfo",text);
+            gameObject.transform.parent.parent.GetChild(1).GetComponent<CodeDisplayer>().current_line = 1;
         }
     }
 
     void HandleClick()
     {
-        StartCoroutine(GetRequest("http://localhost:8000/api/v1"));
+        StartCoroutine(GetRequest("http://localhost:8000/api/execution/end/"));
     }
 
     void HandleMouseOver()
