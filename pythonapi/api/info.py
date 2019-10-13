@@ -13,7 +13,12 @@ def info_locals():
 	retval = pythonapi.app.config['PROCESS'].before
 
 	pythonapi.app.config['PROCESS'].sendline('h')
-	return retval;
+
+	vars = retval.split("from '/usr/lib/python3.6/pdb.py'>,",1)[1]
+	vars = vars.rsplit("}\r\n(",1)[0]
+	vars = "{" + vars + "}"
+
+	return vars
 
 
 def info_stack():
