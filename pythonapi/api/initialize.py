@@ -8,7 +8,6 @@ def initialize():
 
 	code = {}
 	i = 1
-	# start program execution
 	
 	with open(pythonapi.app.config['PROGRAM_PATH'], 'r') as f:
 		# ignore newline character

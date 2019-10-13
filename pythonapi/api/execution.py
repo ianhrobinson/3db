@@ -8,7 +8,8 @@ import pythonapi
 def start_debug():
 
 	# start program execution
-	os.system(f"python {pythonapi.app.config['PROGRAM_NAME']}")
+	# os.system(f"python {pythonapi.app.config['PROGRAM_PATH']}")
+	property.api.config['PROCESS_ID'] = os.spawnl(os.P_DETACH, 'python', 'test0.py')
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -28,7 +29,7 @@ def start_debug():
 def end_debug():
 
 	# end program execution
-	os.system('quit')
+	os.system(f"kill {pythonapi.app.config['PROCESS_ID']}")
 
 	# return program state
 	program_state = {
