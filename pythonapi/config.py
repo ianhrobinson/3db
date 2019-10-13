@@ -1,6 +1,17 @@
 """"config file for pythonapi package"""
 
+import os
+
 APPLICATION_ROOT = '/'
 
-# path from api's __init__.py file
-MAIN_PROGRAM = '/tests/test0.py'
+PROGRAM_FOLDER = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+    'pythonapi', 'tests'
+)
+
+PROGRAM_NAME = 'test0.py'
+
+PROGRAM_PATH = os.path.join(
+	PROGRAM_FOLDER, 
+	PROGRAM_NAME
+)

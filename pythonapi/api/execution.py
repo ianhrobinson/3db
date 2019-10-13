@@ -2,22 +2,22 @@
 import os
 import flask
 import pythonapi
-import pythonapi.api.info as info
 
 
 @pythonapi.app.route('/api/execution/start/', methods=["GET"])
 def start_debug():
 
 	# start program execution
-	os.system(f'python {pythonapi.app.config["MAIN_PROGRAM"]}')
+	os.system(f"python {pythonapi.app.config['PROGRAM_NAME']}")
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return program state
 	program_state = {
     	"start": True,
-		"current_line": 1,
+		"current_line": curr_line,
 		"variables": variables,
 		"stack": stack
 	}
@@ -37,54 +37,57 @@ def end_debug():
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/stepinto/', methods=["GET"])
+@pythonapi.app.route('/api/execution/stepinto/', methods=["GET"])
 def step_into():
 
 	# step into line
 	os.system('step')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state = {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/stepover/', methods=["GET"])
+@pythonapi.app.route('/api/execution/stepover/', methods=["GET"])
 def step_over():
 
 	# step over line
 	os.system('next')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state= {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/continue/', methods=["GET"])
+@pythonapi.app.route('/api/execution/continue/', methods=["GET"])
 def continue_debug():
 
 	# step over line
 	os.system('continue')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state= {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
@@ -92,7 +95,7 @@ def continue_debug():
 
 
 # TODO
-@pythonapi.app.route('/api/execute/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
 def set_breakpoint(line_number):
 
 	# set breakpoint in pdb
@@ -105,7 +108,7 @@ def set_breakpoint(line_number):
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
 def remove_breakpoint(line_number):
 
 	# set breakpoint in pdb
