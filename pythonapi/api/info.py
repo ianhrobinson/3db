@@ -17,6 +17,7 @@ def info_stack():
 	'''
 	return None
 
+
 def get_current_line():
 	'''
 	returns current line

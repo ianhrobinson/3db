@@ -2,22 +2,22 @@
 import os
 import flask
 import pythonapi
-import pythonapi.api.info as info
 
 
 @pythonapi.app.route('/api/execution/start/', methods=["GET"])
 def start_debug():
 
 	# start program execution
-	os.system(f'python {pythonapi.app.config["MAIN_PROGRAM"]}')
+	os.system(f"python {pythonapi.app.config['MAIN_PROGRAM']}")
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return program state
 	program_state = {
     	"start": True,
-		"current_line": 1,
+		"current_line": curr_line,
 		"variables": variables,
 		"stack": stack
 	}
@@ -43,12 +43,13 @@ def step_into():
 	# step into line
 	os.system('step')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state = {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
@@ -61,12 +62,13 @@ def step_over():
 	# step over line
 	os.system('next')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state= {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
@@ -79,12 +81,13 @@ def continue_debug():
 	# step over line
 	os.system('continue')
 
-	variables = info.info_locals()
-	stack = info.info_stack()
+	variables = pythonapi.api.info_locals()
+	stack = pythonapi.api.info_stack()
+	curr_line = pythonapi.api.get_current_line()
 
 	# return new program state
 	program_state= {
-		"current_line": 1,
+		"current_line": curr_line,
     	"variables": variables,
 		"stack": stack
 	}
