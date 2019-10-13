@@ -6,16 +6,12 @@ import pythonapi
 @pythonapi.app.route('/api/initialize/', methods=["GET"])
 def initialize():
 
-	code = {}
-	i = 1
-	
-	with open(pythonapi.app.config['PROGRAM_PATH'], 'r') as f:
-		# ignore newline character
-		line = f.readline()
-		while line:
-			code[i] = line
-			line = f.readline()
-			i += 1
+	print(pythonapi.app.config['PROCESS'])
+
+	f = open(pythonapi.app.config['PROGRAM_PATH'], 'r')
+	# create list of lines
+	code = f.read().split('\n')
+	f.close()
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()

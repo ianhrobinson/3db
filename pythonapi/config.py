@@ -16,4 +16,4 @@ PROGRAM_PATH = os.path.join(
 	PROGRAM_NAME
 )
 
-PROCESS_ID = -1
+PROCESS = -1

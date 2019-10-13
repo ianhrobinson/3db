@@ -1,6 +1,5 @@
 import os
 
-
 def info_locals():
 	'''
 	returns all local variables with their values in a dictionary
