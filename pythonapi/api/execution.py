@@ -8,7 +8,7 @@ import pythonapi
 def start_debug():
 
 	# start program execution
-	os.system(f"python {pythonapi.app.config['MAIN_PROGRAM']}")
+	os.system(f"python {pythonapi.app.config['PROGRAM_NAME']}")
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -37,7 +37,7 @@ def end_debug():
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/stepinto/', methods=["GET"])
+@pythonapi.app.route('/api/execution/stepinto/', methods=["GET"])
 def step_into():
 
 	# step into line
@@ -56,7 +56,7 @@ def step_into():
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/stepover/', methods=["GET"])
+@pythonapi.app.route('/api/execution/stepover/', methods=["GET"])
 def step_over():
 
 	# step over line
@@ -75,7 +75,7 @@ def step_over():
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/continue/', methods=["GET"])
+@pythonapi.app.route('/api/execution/continue/', methods=["GET"])
 def continue_debug():
 
 	# step over line
@@ -95,7 +95,7 @@ def continue_debug():
 
 
 # TODO
-@pythonapi.app.route('/api/execute/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
 def set_breakpoint(line_number):
 
 	# set breakpoint in pdb
@@ -108,7 +108,7 @@ def set_breakpoint(line_number):
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execute/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
 def remove_breakpoint(line_number):
 
 	# set breakpoint in pdb
