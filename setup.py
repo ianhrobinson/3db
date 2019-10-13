@@ -23,5 +23,6 @@ setup(
         'pytest==5.2.0',
         'requests==2.22.0',
         'sh==1.12.14',
+        'pexpect==4.7'
     ],
 )
