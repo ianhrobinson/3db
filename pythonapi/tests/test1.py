@@ -1,5 +1,10 @@
 import subprocess
 
-pid = subprocess.Popen(["python", "-m", "pdb", "test0.py", "&"]).pid
+process = subprocess.Popen(["python", "-m", "pdb", "test0.py"], shell=True)
 
-print(pid)
+try:
+	stdout, stderr = process.communicate(input='l', timeout=3)
+	print(stdout)
+except:
+	process.kill()
+

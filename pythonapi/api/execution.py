@@ -30,7 +30,7 @@ def start_debug():
 def end_debug():
 
 	# end program execution
-	os.system(f"kill {pythonapi.app.config['PROCESS_ID']}")
+	pythonapi.app.config['PROCESS'].kill()
 
 	# return program state
 	program_state = {
