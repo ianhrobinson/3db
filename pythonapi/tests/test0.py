@@ -1,10 +1,13 @@
-import pdb;pdb.set_trace()
+
+def add_func(a, b):
+	return a + b
+
 
 if __name__ == "__main__":
 	# test variable representations
 	x = 9
 	y = 3
-	z = x + y
+	z = add_func(x, y)
 	my_list = [x, y, z]
 	my_dict = { 
 		"x": x,

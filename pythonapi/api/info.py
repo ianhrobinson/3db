@@ -23,7 +23,7 @@ def get_current_line():
 	returns current line
 	'''
 	filename = pythonapi.api.config['PROGRAM_NAME']
-	output = sub.pid("u;;d;;l")
+	output = stderr.PIPE("u;;d;;l")
 	i = 0
 	while i < len(output):
 		if 	filename == output[i:len(filename)]

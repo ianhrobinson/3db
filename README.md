@@ -11,7 +11,7 @@ A 3D visual debugger for Python with VR support. Made for MHacks 12
 3. activate the environment using      
 	`$ source env/bin/activate`
 
-4. Grab your favorite Python program and copy it into the `main/` folder. Make sure the the line `import pdb;pdb.set_trace()` is atop the file. Now, navigate to `config.py` and change `PROGRAM_NAME` to the name of the python file
+4. Grab your favorite Python program and copy it into the `main/` folder. Now, navigate to `config.py` and change `PROGRAM_NAME` to the name of the python file
 
 5. run the api server using      
 	`$ chmod +x bin/* `      

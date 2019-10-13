@@ -1,5 +1,5 @@
 """REST API for execution"""
-import os
+import subprocess
 import flask
 import pythonapi
 
@@ -8,8 +8,9 @@ import pythonapi
 def start_debug():
 
 	# start program execution
-	# os.system(f"python {pythonapi.app.config['PROGRAM_PATH']}")
-	property.api.config['PROCESS_ID'] = os.spawnl(os.P_DETACH, 'python', 'test0.py')
+	pythonapi.app.config['PROCESS'] = subprocess.Popen(
+		["python", "-m", "pdb", pythonapi.app.config['PROGRAM_PATH']], shell=True
+	)
 
 	variables = pythonapi.api.info_locals()
 	stack = pythonapi.api.info_stack()
@@ -29,7 +30,7 @@ def start_debug():
 def end_debug():
 
 	# end program execution
-	os.system(f"kill {pythonapi.app.config['PROCESS_ID']}")
+	pythonapi.app.config['PROCESS'].kill()
 
 	# return program state
 	program_state = {
@@ -96,7 +97,7 @@ def continue_debug():
 
 
 # TODO
-@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/set_breakpoint/<int:line_number>/', methods=["GET"])
 def set_breakpoint(line_number):
 
 	# set breakpoint in pdb
@@ -109,11 +110,11 @@ def set_breakpoint(line_number):
 	return flask.jsonify(**program_state)
 
 
-@pythonapi.app.route('/api/execution/breakpoint/<int:line_number>/', methods=["GET"])
+@pythonapi.app.route('/api/execution/remove_breakpoint/<int:line_number>/', methods=["GET"])
 def remove_breakpoint(line_number):
 
 	# set breakpoint in pdb
-	os.system(f'break {line_number}')
+	os.system(f'clear {line_number}')
 
 	program_state= {
 		"added": True
