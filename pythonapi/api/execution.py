@@ -9,7 +9,8 @@ def start_debug():
 
 	# start program execution
 	pythonapi.app.config['PROCESS'] = subprocess.Popen(
-		["python", "-m", "pdb", pythonapi.app.config['PROGRAM_PATH']], shell=True
+		["python", pythonapi.app.config['PROGRAM_PATH']], 
+		stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True
 	)
 
 	variables = pythonapi.api.info_locals()
