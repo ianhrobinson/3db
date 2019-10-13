@@ -34,8 +34,8 @@ def info_stack():
 	temp = unparsed_stack.split(filename)[1]
 	temp = temp.split('->')[0][1:]
 
-	newtemp = temp.replace('(', '')
-	temp = newtemp.replace(')', '')
+	temp = list(filter((lambda x: (x.isalpha())), temp))
+	temp = ''.join(temp)
 
 	parsed_stack = temp
 
