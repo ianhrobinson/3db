@@ -9,13 +9,8 @@ def initialize():
 	code = {}
 	i = 1
 	# start program execution
-	filepath = os.path.join(
-		pythonapi.app.config['PROGRAM_FOLDER'], 
-		pythonapi.app.config["MAIN_PROGRAM"]
-	)
-
 	
-	with open('test0.py', 'r') as f:
+	with open(filepath, 'r') as f:
 		# ignore newline character
 		line = f.readline()
 		while line:

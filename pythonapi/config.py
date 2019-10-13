@@ -9,5 +9,9 @@ PROGRAM_FOLDER = os.path.join(
     'pythonapi', 'tests'
 )
 
-# path from api's __init__.py file
-MAIN_PROGRAM = 'test0.py'
+PROGRAM_NAME = 'test0.py'
+
+PROGRAM_PATH = os.path.join(
+	PROGRAM_FOLDER, 
+	PROGRAM_NAME
+)
