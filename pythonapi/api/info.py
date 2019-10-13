@@ -62,8 +62,10 @@ def get_current_line():
 	pythonapi.app.config['PROCESS'].sendline('h')
 
 	parsed_stack = []
-	temp = unparsed_stack.split(filename)[1]
-	temp = temp.split('->')[0][1:]
+	print(f'unparsed: {unparsed_stack}')
+	temp = unparsed_stack.split('->')[-2]
+	print(f'temp: {temp}')
+	temp = temp.split(filename)[-1]
 
 	temp = list(filter((lambda x: (x.isnumeric())), temp))
 	temp = ''.join(temp)
