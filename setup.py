@@ -1,7 +1,10 @@
 """
-Insta485 python package configuration.
+pythonapi package configuration.
 
-Andrew DeOrio <awdeorio@umich.edu>
+Zach Boyle <zboyle@umich.edu>
+Marcelo Almeida <mgba@umich.edu>
+Nick Kroetsch < >
+Ian Robinson < >
 """
 
 from setuptools import setup
