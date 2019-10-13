@@ -1,5 +1,4 @@
 import os
-import re
 import pythonapi
 
 def info_locals():
@@ -30,19 +29,17 @@ def info_stack():
 	unparsed_stack = pythonapi.app.config['PROCESS'].before
 
 	pythonapi.app.config['PROCESS'].sendline('h')
-	# parsed_stack = []
 
-	# temp = [unparsed_stack.split(filename)]
+	parsed_stack = []
+	temp = unparsed_stack.split(filename)[1]
+	temp = temp.split('->')[0][1:]
 
-	# print(temp)
-	# temp = temp[1]
+	newtemp = temp.replace('(', '')
+	temp = newtemp.replace(')', '')
 
-	# temp = temp.split('->')[0]	
+	parsed_stack = temp
 
-	# # TODO: parse stack better
-	# parsed_stack = temp
-
-	return unparsed_stack
+	return parsed_stack
 
 
 def get_current_line():
@@ -61,8 +58,10 @@ def get_current_line():
 
 	pythonapi.app.config['PROCESS'].sendline('h')
 
-	temp = re.findall(r"/\[[0-9]+\]/*->", output)
+	line_num = -1
 
-	line_num = output
+	temp = output.split('->')[0][1:]
+
+	line_num = int(temp.split(' ')[-2])
 
 	return line_num
