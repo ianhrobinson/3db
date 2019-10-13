@@ -5,7 +5,7 @@ def info_locals():
 	'''
 	returns all local variables with their values in a dictionary
 	'''
-	
+
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	pythonapi.app.config['PROCESS'].sendline('locals()')
 
@@ -34,8 +34,8 @@ def info_stack():
 	temp = unparsed_stack.split(filename)[1]
 	temp = temp.split('->')[0][1:]
 
-	newtemp = temp.replace('(', '')
-	temp = newtemp.replace(')', '')
+	temp = list(filter((lambda x: (x.isalpha())), temp))
+	temp = ''.join(temp)
 
 	parsed_stack = temp
 
@@ -48,20 +48,21 @@ def get_current_line():
 	'''
 	
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
-	pythonapi.app.config['PROCESS'].sendline('u;;d;;l')
+	pythonapi.app.config['PROCESS'].sendline('where')
 
-	line_num = -1
-
-	# TODO: clean this up
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
-	output = pythonapi.app.config['PROCESS'].before
+	filename = pythonapi.app.config['PROGRAM_NAME']
+	unparsed_stack = pythonapi.app.config['PROCESS'].before
 
 	pythonapi.app.config['PROCESS'].sendline('h')
 
-	line_num = -1
+	parsed_stack = []
+	temp = unparsed_stack.split(filename)[1]
+	temp = temp.split('->')[0][1:]
 
-	temp = output.split('->')[0][1:]
+	temp = list(filter((lambda x: (x.isnumeric())), temp))
+	temp = ''.join(temp)
 
-	line_num = int(temp.split(' ')[-2])
+	parsed_stack = int(temp)
 
-	return line_num
+	return parsed_stack
