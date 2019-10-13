@@ -10,7 +10,7 @@ def initialize():
 	i = 1
 	# start program execution
 	
-	with open(filepath, 'r') as f:
+	with open(pythonapi.app.config['PROGRAM_PATH'], 'r') as f:
 		# ignore newline character
 		line = f.readline()
 		while line:
