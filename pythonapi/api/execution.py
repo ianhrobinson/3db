@@ -29,7 +29,7 @@ def start_debug():
 def end_debug():
 
 	# end program execution
-	pythonapi.app.config['PROCESS'].kill()
+	pythonapi.app.config['PROCESS'].kill(1)
 
 	# return program state
 	program_state = {

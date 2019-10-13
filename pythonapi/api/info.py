@@ -1,4 +1,5 @@
 import os
+import re
 import pythonapi
 
 def info_locals():
@@ -16,16 +17,25 @@ def info_stack():
 	'''
 	returns stack frames, front of list = top
 	'''
-	
+
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	pythonapi.app.config['PROCESS'].sendline('where')
 
+	filename = pythonapi.app.config['PROGRAM_NAME']
 	unparsed_stack = pythonapi.app.config['PROCESS'].before
-	parsed_stack = [unparsed_stack.split('->')]
+	# parsed_stack = []
 
-	# TODO: parse stack better
+	# temp = [unparsed_stack.split(filename)]
 
-	return parsed_stack
+	# print(temp)
+	# temp = temp[1]
+
+	# temp = temp.split('->')[0]	
+
+	# # TODO: parse stack better
+	# parsed_stack = temp
+
+	return unparsed_stack
 
 
 def get_current_line():
@@ -36,23 +46,13 @@ def get_current_line():
 	pythonapi.app.config['PROCESS'].expect('(Pdb)')
 	pythonapi.app.config['PROCESS'].sendline('u;;d;;l')
 
+	line_num = -1
+
 	# TODO: clean this up
+	output = pythonapi.app.config['PROCESS'].before
 
-	# filename = pythonapi.app.config['PROGRAM_PATH']
-	# output = pythonapi.app.config['PROCESS'].before
+	# temp = re.findall(r"/\[[0-9]+\]/*->", output)
 
-	# i = 0
-	# while i < len(output):
-	# 	if 	filename == output[i:len(filename)]:
-	# 		i = i + len(filename) + 2
-	# 		break
-	# 	i += 1
-	
-	# # right at line number
-	# s = ''
-	# while output[i] != ')':
-	# 	s.append(output[i])
+	line_num = output
 
-	# line_no = int(s)
-
-	return pythonapi.app.config['PROCESS'].before
+	return line_num

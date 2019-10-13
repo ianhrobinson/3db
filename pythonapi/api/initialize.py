@@ -17,16 +17,8 @@ def initialize():
 	code = f.read().split('\n')
 	f.close()
 
-	variables = pythonapi.api.info_locals()
-	stack = pythonapi.api.info_stack()
-	curr_line = pythonapi.api.get_current_line()
-
 	# return program state
 	program_state = {
-    	"start": True,
-		"code": code,
-		"current_line": curr_line,
-		"variables": variables,
-		"stack": stack
+		"code": code
 	}
 	return flask.jsonify(**program_state)
